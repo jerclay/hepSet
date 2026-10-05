@@ -1,4 +1,4 @@
-function ModifyPRD()
+function ModifyResourceBar()
     if not PersonalResourceDisplayFrame then return end
 
     local function ApplyBlackMissingBackground(bar)
@@ -26,9 +26,7 @@ function ModifyPRD()
         else
             bar.customBlackBg:Show()
         end
-        
-        -- Ensure the standard directional orientation is active (Right-to-Left depletion)
-        bar:SetOrientation("HORIZONTAL")
+
     end
 
     -- Apply the black backdrop to the Health Bar
@@ -49,8 +47,8 @@ end
 
 -- Hook into the frame's update cycles so changes persist across spec changes/reloads
 if PersonalResourceDisplayFrame then
-    PersonalResourceDisplayFrame:HookScript("OnShow", ModifyPRD)
+    PersonalResourceDisplayFrame:HookScript("OnShow", ModifyResourceBar)
     if PersonalResourceDisplayFrame:IsShown() then
-        ModifyPRD()
+        ModifyResourceBar()
     end
 end

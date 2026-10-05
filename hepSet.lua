@@ -7,8 +7,3 @@ AlertFrame:SetPoint("BOTTOM", 1400, 550)
 --ZoneTextFrame:ClearAllPoints()
 --ZoneTextFrame:SetScale(0.75)
 --ZoneTextFrame:SetPoint("TOP", UIParent, "TOP", 0, 10)
-
-if BBFComboPointBarPRD then
-	BBFComboPointBarPRD:UnregisterAllEvents()
-	BBFComboPointBarPRD:Hide()
-end
