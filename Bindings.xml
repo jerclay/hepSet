@@ -1,0 +1,22 @@
+﻿<Bindings>
+	<Binding name="HEPSET_TOGGLE_UI" header="HEPU" category="ADDONS">
+		if UnitAffectingCombat("player") then
+			print("In combat.")
+		else
+			if hiderFrame:IsVisible() then
+ 				hiderFrame:Hide()
+				MicroMenu:Hide()
+			else
+				hiderFrame:Show()
+				MicroMenu:Show()
+			end
+		end
+	</Binding>
+	<Binding name="HEPSET_TOGGLE_Q" header="HEPQ" category="ADDONS">
+		if ObjectiveTrackerFrame:IsVisible() then
+			ObjectiveTrackerFrame:Hide()
+		else
+			ObjectiveTrackerFrame:Show()
+		end
+	</Binding>
+</Bindings>

@@ -1,0 +1,11 @@
+## Interface: 16001, 11507
+## Version: v1.2.0
+## Title: hepSet
+## Author: Hep
+## IconTexture: Interface\AddOns\hepSet\icon
+
+sellgrays.lua
+resourcedisplay.lua
+hiderframe.lua
+
+hepSet.lua
