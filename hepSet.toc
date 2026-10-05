@@ -7,5 +7,6 @@
 sellgrays.lua
 resourcedisplay.lua
 hiderframe.lua
+togglebar.lua
 
 hepSet.lua
