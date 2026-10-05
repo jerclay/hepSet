@@ -1,5 +1,5 @@
 ﻿<Bindings>
-	<Binding name="HEPSET_TOGGLE_UI" header="HEPU" category="ADDONS">
+	<Binding name="Toggle UI" header="HEPU" category="ADDONS">
 		if UnitAffectingCombat("player") then
 			print("In combat.")
 		else
@@ -12,7 +12,7 @@
 			end
 		end
 	</Binding>
-	<Binding name="HEPSET_TOGGLE_Q" header="HEPQ" category="ADDONS">
+	<Binding name="Toggle Quests" header="HEPQ" category="ADDONS">
 		if ObjectiveTrackerFrame:IsVisible() then
 			ObjectiveTrackerFrame:Hide()
 		else
