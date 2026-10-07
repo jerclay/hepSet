@@ -8,5 +8,6 @@ sellgrays.lua
 resourcedisplay.lua
 hiderframe.lua
 togglebar.lua
+minimap.lua
 
 hepSet.lua
