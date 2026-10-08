@@ -52,3 +52,36 @@ if PersonalResourceDisplayFrame then
         ModifyResourceBar()
     end
 end
+
+-- Move the class resource (combo points, soul shards, etc.) above the other bars instead of below them.
+-- Blizzard (and other addons) re-anchor the container below the bars from several places, so
+-- every time it's anchored we put it back on top of the highest visible bar.
+local function AnchorClassFrameOnTop(container)
+    if container.hepAnchoring then return end
+
+    local prd = PersonalResourceDisplayFrame
+    local topBar
+    if not prd.hideHealth and prd.HealthBarsContainer:IsShown() then
+        topBar = prd.HealthBarsContainer
+    elseif not prd.hidePower and prd.PowerBar:IsShown() then
+        topBar = prd.PowerBar
+    elseif prd.AlternatePowerBar and prd.AlternatePowerBar:IsShown() then
+        topBar = prd.AlternatePowerBar
+    end
+
+    container.hepAnchoring = true
+    container:ClearAllPoints()
+    if topBar then
+        -- yOffset is the spacing Blizzard uses below the bars; mirror it for spacing above
+        container:SetPoint("BOTTOM", topBar, "TOP", 0, -(container.yOffset or 0))
+    else
+        container:SetPoint("TOP", prd, "TOP", 0, container.yOffset or 0)
+    end
+    container.hepAnchoring = nil
+end
+
+if PersonalResourceDisplayFrame and PersonalResourceDisplayFrame.ClassFrameContainer then
+    local container = PersonalResourceDisplayFrame.ClassFrameContainer
+    hooksecurefunc(container, "SetPoint", AnchorClassFrameOnTop)
+    AnchorClassFrameOnTop(container)
+end
