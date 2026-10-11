@@ -1,5 +1,5 @@
 ## Interface: 16001, 11507
-## Version: v1.2.0
+## Version: v1.3.1
 ## Title: hepSet
 ## Author: Hep
 ## IconTexture: Interface\AddOns\hepSet\icon
@@ -9,5 +9,7 @@ resourcedisplay.lua
 hiderframe.lua
 togglebar.lua
 minimap.lua
+xpbar.lua
+swingtimer.lua
 
 hepSet.lua
