@@ -5,7 +5,7 @@ local CoordFont, _, CoordFlags = CoordText:GetFont()
 CoordText:SetFont(CoordFont, 14, CoordFlags)
 
 -- Enlarge the bar along the top of the minimap.
-
+/*
 local TopBarScale = 1.5
 
 local TopBarPieces = {
@@ -133,3 +133,4 @@ else
 		end
 	end)
 end
+*/
