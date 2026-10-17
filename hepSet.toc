@@ -11,5 +11,6 @@ togglebar.lua
 minimap.lua
 xpbar.lua
 swingtimer.lua
+tooltip.lua
 
 hepSet.lua
