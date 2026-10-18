@@ -5,7 +5,7 @@
 ## IconTexture: Interface\AddOns\hepSet\icon
 
 sellgrays.lua
-resourcedisplay.lua
+##resourcedisplay.lua
 hiderframe.lua
 togglebar.lua
 minimap.lua
