@@ -1,6 +1,8 @@
 -- Restyle Blizzard's swing timer bars: remove their border and give them the same
 -- texture as the player frame's health bar. Blizzard can reset the texture, so it's
 -- re-applied whenever a bar's texture changes.
+local _, ns = ...
+
 local swingTimerNames = { "SwingTimerMainHandFrame", "SwingTimerOffHandFrame", "SwingTimerRangedFrame" }
 
 -- Blizzard's default player frame health bar fill
@@ -19,7 +21,15 @@ local function ApplyHealthTexture(statusBar)
 	statusBar.hepApplying = nil
 end
 
+local function OnSetStatusBarTexture(self)
+	if not self.hepApplying then
+		ApplyHealthTexture(self)
+	end
+end
+
 local function StyleSwingTimers()
+	local styled = 0
+
 	for _, frameName in ipairs(swingTimerNames) do
 		local frame = _G[frameName]
 		if frame then
@@ -31,19 +41,20 @@ local function StyleSwingTimers()
 			if statusBar then
 				if not statusBar.hepHooked then
 					statusBar.hepHooked = true
-					hooksecurefunc(statusBar, "SetStatusBarTexture", function(self)
-						if not self.hepApplying then
-							ApplyHealthTexture(self)
-						end
-					end)
+					hooksecurefunc(statusBar, "SetStatusBarTexture", OnSetStatusBarTexture)
 				end
 				ApplyHealthTexture(statusBar)
+				styled = styled + 1
 			end
 		end
 	end
+
+	-- Once every bar is hooked, the hook keeps the texture applied by itself.
+	if styled == #swingTimerNames then
+		ns.UnregisterEvent("PLAYER_ENTERING_WORLD", StyleSwingTimers)
+		ns.UnregisterEvent("ADDON_LOADED", StyleSwingTimers)
+	end
 end
 
-local swingTimerFrame = CreateFrame("Frame")
-swingTimerFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-swingTimerFrame:RegisterEvent("ADDON_LOADED")
-swingTimerFrame:SetScript("OnEvent", StyleSwingTimers)
+ns.RegisterEvent("PLAYER_ENTERING_WORLD", StyleSwingTimers)
+ns.RegisterEvent("ADDON_LOADED", StyleSwingTimers)

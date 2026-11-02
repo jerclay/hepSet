@@ -1,6 +1,7 @@
 -- Toggle a single action bar.
+local _, ns = ...
 
-local barNames = {"MainActionBar", "MultiBarBottomLeft", "MultiBarBottomRight", "MultiBarRight", "MultiBarLeft", "MultiBar5", "MultiBar6", "MultiBar7"}
+local barNames = ns.actionBarNames
 
 -- state: nil = toggle, true = show only, false = hide only
 function ToggleBar(num, state)

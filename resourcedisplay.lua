@@ -1,4 +1,16 @@
-function ModifyResourceBar()
+-- Hide every texture region except the fill and our background. Takes the regions as
+-- varargs so it doesn't build a table each time the frame shows.
+local function StripRegions(statusBarTexture, customBlackBg, ...)
+    for i = 1, select("#", ...) do
+        local region = select(i, ...)
+        if region:IsObjectType("Texture") and region ~= statusBarTexture and region ~= customBlackBg then
+            region:SetTexture(nil)
+            region:Hide()
+        end
+    end
+end
+
+local function ModifyResourceBar()
     if not PersonalResourceDisplayFrame then return end
 
     local function ApplyBlackMissingBackground(bar)
@@ -9,13 +21,7 @@ function ModifyResourceBar()
         
         -- 2. Strip the default Blizzard borders/background frames
         if bar.Background then bar.Background:SetAlpha(0) end
-        local regions = { bar:GetRegions() }
-        for _, region in ipairs(regions) do
-            if region:IsObjectType("Texture") and region ~= statusBarTexture and region ~= bar.customBlackBg then
-                region:SetTexture(nil)
-                region:Hide()
-            end
-        end
+        StripRegions(statusBarTexture, bar.customBlackBg, bar:GetRegions())
 
         -- 3. Create or update our explicit black background layer
         if not bar.customBlackBg then

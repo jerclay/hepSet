@@ -1,16 +1,6 @@
 ﻿<Bindings>
 	<Binding name="Toggle UI" header="HEPU" category="ADDONS">
-		if UnitAffectingCombat("player") then
-			print("In combat.")
-		else
-			if hiderFrame:IsVisible() then
- 				hiderFrame:Hide()
-				MicroMenu:Hide()
-			else
-				hiderFrame:Show()
-				MicroMenu:Show()
-			end
-		end
+		SlashCmdList.TOGGLEBARS()
 	</Binding>
 	<Binding name="Toggle Quests" header="HEPQ" category="ADDONS">
 		if ObjectiveTrackerFrame:IsVisible() then

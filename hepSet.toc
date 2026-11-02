@@ -4,6 +4,7 @@
 ## Author: Hep
 ## IconTexture: Interface\AddOns\hepSet\icon
 
+core.lua
 sellgrays.lua
 ##resourcedisplay.lua
 hiderframe.lua

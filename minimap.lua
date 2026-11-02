@@ -1,4 +1,5 @@
 -- Make the minimap coords font bigger.
+local _, ns = ...
 
 local CoordText = MinimapCluster.MinimapContainer.PlayerCoords.CoordText
 local CoordFont, _, CoordFlags = CoordText:GetFont()
@@ -8,31 +9,26 @@ CoordText:SetFont(CoordFont, 14, CoordFlags)
 
 local TopBarScale = 1.5
 
-local TopBarPieces = {
+-- Keyed by frame, so checking whether a frame is a piece is a single lookup.
+local TopBarPieces = {}
+for _, piece in pairs({
 	MinimapCluster.BorderTop,
 	MinimapCluster.Tracking or MiniMapTracking,
 	MinimapCluster.ZoneTextButton or MinimapZoneTextButton,
 	GameTimeFrame,
 	AddonCompartmentFrame,
-}
-
-local function IsTopBarPiece(frame)
-	for _, piece in pairs(TopBarPieces) do
-		if piece == frame then
-			return true
-		end
-	end
-	return false
+}) do
+	TopBarPieces[piece] = true
 end
 
 local function ScaleTopBarPiece(piece)
 	-- Skip pieces whose parent is also being scaled, so they aren't scaled twice.
-	if piece.SetScale and not IsTopBarPiece(piece:GetParent()) then
+	if piece.SetScale and not TopBarPieces[piece:GetParent()] then
 		piece:SetScale(TopBarScale)
 	end
 end
 
-for _, piece in pairs(TopBarPieces) do
+for piece in pairs(TopBarPieces) do
 	ScaleTopBarPiece(piece)
 end
 
@@ -52,9 +48,7 @@ local function PlaceCoords()
 end
 
 -- The coordinates can only be repositioned once the UI is on screen.
-local layoutWatcher = CreateFrame("Frame")
-layoutWatcher:RegisterEvent("PLAYER_ENTERING_WORLD")
-layoutWatcher:SetScript("OnEvent", PlaceCoords)
+ns.RegisterEvent("PLAYER_ENTERING_WORLD", PlaceCoords)
 
 -- The game resets these positions when the header position is changed in Edit Mode.
 if MinimapCluster.SetHeaderUnderneath then
@@ -63,19 +57,19 @@ end
 
 -- The clock comes from Blizzard_TimeManager, which may load after this addon.
 local function ScaleClock()
-	table.insert(TopBarPieces, TimeManagerClockButton)
+	TopBarPieces[TimeManagerClockButton] = true
 	ScaleTopBarPiece(TimeManagerClockButton)
+end
+
+local function WaitForClock(event, addOnName)
+	if addOnName == "Blizzard_TimeManager" and TimeManagerClockButton then
+		ScaleClock()
+		ns.UnregisterEvent("ADDON_LOADED", WaitForClock)
+	end
 end
 
 if TimeManagerClockButton then
 	ScaleClock()
 else
-	local clockWatcher = CreateFrame("Frame")
-	clockWatcher:RegisterEvent("ADDON_LOADED")
-	clockWatcher:SetScript("OnEvent", function(self, event, addOnName)
-		if addOnName == "Blizzard_TimeManager" and TimeManagerClockButton then
-			ScaleClock()
-			self:UnregisterEvent("ADDON_LOADED")
-		end
-	end)
+	ns.RegisterEvent("ADDON_LOADED", WaitForClock)
 end
